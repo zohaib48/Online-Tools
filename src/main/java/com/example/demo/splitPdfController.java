@@ -17,11 +17,11 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 //splitter
 @Controller
-public class HelloController {
+public class splitPdfController {
 
     @GetMapping("/")
     public String home() {
-        return "hello";
+        return "Splitter";
     }
 
     @GetMapping("/splitpdf")
