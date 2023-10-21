@@ -19,7 +19,7 @@ import java.util.zip.ZipOutputStream;
 @Controller
 public class HelloController {
 
-    @GetMapping("/")
+    @GetMapping("/pdf")
     public String home() {
         return "hello";
     }
