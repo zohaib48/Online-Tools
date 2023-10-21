@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Split PDF</title>
+</head>
+<body>
+    <h2>Select a PDF file to split:</h2>
+    <form action="/splitPdfAndDownload" method="post" enctype="multipart/form-data">
+
+        <input type="file" name="pdfFile" accept=".pdf" required><br><br>
+        <h2>Specify the page ranges to split (e.g., 1-3,5-7):</h2>
+        <input type="text" name="pageRanges" required><br><br>
+        <input type="submit" value="Split PDF">
+    </form>
+
+    <!-- Display success message if available -->
+    <div th:if="${successMessage}" class="success-message">
+        <h2 th:text="${successMessage}"></h2>
+    </div>
+
+    <!-- Display error message if available -->
+    <div th:if="${errorMessage}" class="error-message">
+        <h2 th:text="${errorMessage}"></h2>
+    </div>
+</body>
+</html>
