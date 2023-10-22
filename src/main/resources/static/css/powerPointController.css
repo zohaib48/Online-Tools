@@ -1,0 +1,103 @@
+
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+}
+
+.main-content {
+    flex: 70%;
+    margin-right: 20px;
+}
+
+.links {
+    flex: 30%;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title h1 {
+    color: #1c7430;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-left: 15px;
+}
+
+.card-title-about h2 {
+    color: #1c7430;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-left: 15px;
+}
+
+.onlinetoolspro {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+.onlinetoolspro h2 {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.onlinetoolspro .list-group {
+    margin-top: 20px;
+}
+
+.onlinetoolspro .list-group-item {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+}
+
+.onlinetoolspro .list-group-item-action {
+    cursor: pointer;
+}
+
+form {
+    margin-bottom: 20px;
+    padding: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="file"] {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.card-body {
+    padding: 20px;
+}
