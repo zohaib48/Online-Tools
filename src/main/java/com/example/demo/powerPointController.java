@@ -21,7 +21,7 @@ import java.util.List;
 @Controller
 public class powerPointController {
 
-    @GetMapping("/")
+    @GetMapping("/Powerpoint")
     public String uploadFileForm(Model model) {
         model.addAttribute("successMessage", null); // Initialize success message to null
         return "powerPointImage"; // Display the upload form initially on the "upload.html" page
