@@ -18,7 +18,7 @@ import java.nio.file.Files;
 import java.util.Base64;
 
 
-//hello controler
+//back
 @Controller
 public class ImageResizeController {
 
