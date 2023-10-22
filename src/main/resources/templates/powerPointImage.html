@@ -1,3 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="/css/powerPointController.css">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="main-content">
+        <div class="row">
+            <div class="card border-0">
+                <div class="card-title">
+                    <h1>Extract Images from PowerPoint</h1>
+                </div>
+
+                <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+                    <div class="form-group row">
+                        <label for="powerpointFile" class="col-sm-3 col-form-label">PowerPoint File</label>
+                        <div class="col-sm-9">
+                            <input type="file" name="file" accept=".pptx" required="required" class="form-control" id="powerpointFile">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <div class="col-sm-4 offset-sm-3">
+                            <button type="submit" class="form-control btn-primary">Extract Pictures</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <br>
+            <div class="card border-0">
+                <div class="card-title-about">
+                    <h2>About the PowerPoint Image Extractor Tool</h2>
+                </div>
+                <div class="card-body">
+                    <p>
+                        The PowerPoint Image Extractor is a powerful and easy-to-use online tool designed to streamline the process of extracting images from PowerPoint presentations. This tool caters to a wide range of users, from professionals and educators to students and anyone who needs to work with PowerPoint images efficiently.
+                    </p>
+                    <p>
+                        <strong>Key Features:</strong>
+                        <ul>
+                            <li>Effortless Image Extraction: Upload your PowerPoint (.pptx) file, and with a single click, the tool will analyze your presentation and retrieve all images contained within it.</li>
+                            <li>Image Organization: The extracted images are neatly organized and can be downloaded individually or as a compressed archive, making it easy to manage your assets.</li>
+                            <li>Save Time and Effort: Whether you need images for further use, presentations, reports, or any other purpose, our tool simplifies the extraction process, saving you valuable time and effort.</li>
+                            <li>User-Friendly Interface: The tool's intuitive and user-friendly interface ensures that you can access your images quickly, without any technical expertise.</li>
+                        </ul>
+                    </p>
+                    <p>
+                        Harness the power of the PowerPoint Image Extractor to work more efficiently with your presentations. Say goodbye to manual image extraction and access your PowerPoint images effortlessly with this tool.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="links">
+        <!-- You can add your links content here -->
+    </div>
+</div>
 
 </body>
 </html>
