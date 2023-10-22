@@ -11,10 +11,15 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import javax.servlet.http.HttpServletResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,7 +33,7 @@ public class powerPointController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model ,HttpServletResponse response) {
         List<byte[]> images = new ArrayList<>();
         String successMessage = null;
 
@@ -38,15 +43,31 @@ public class powerPointController {
 
             // Create a zip file containing all the images
             String zipFileName = "images.zip";
-            createZipFile(images, zipFileName);
+          File zipFile =  createZipFile(images, zipFileName);
 
-            successMessage = "File successfully uploaded and processed. Images saved in " + zipFileName;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+                 response.setContentType("application/zip");
+                response.setHeader("Content-Disposition", "attachment; filename=split_pdf.zip");
+
+           
+                try (OutputStream out = response.getOutputStream();
+                     FileInputStream zipInputStream = new FileInputStream(zipFile)) {
+                    byte[] buffer = new byte[1024];
+                    int bytesRead;
+                    while ((bytesRead = zipInputStream.read(buffer)) != -1) {
+                        out.write(buffer, 0, bytesRead);
+                    }
+                }
+
+            
+            } catch (Exception e) {
+                e.printStackTrace();
+                // Handle the error as needed
+            }
 
         model.addAttribute("images", images);
         model.addAttribute("successMessage", successMessage);
+
+
 
         return "powerPointImage";
     }
