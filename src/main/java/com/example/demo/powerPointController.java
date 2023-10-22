@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-public class ImageService {
+public class powerPointController {
 
     @GetMapping("/")
     public String uploadFileForm(Model model) {
         model.addAttribute("successMessage", null); // Initialize success message to null
-        return "upload"; // Display the upload form initially on the "upload.html" page
+        return "powerPointImage"; // Display the upload form initially on the "upload.html" page
     }
 
     @PostMapping("/upload")
@@ -48,7 +48,7 @@ public class ImageService {
         model.addAttribute("images", images);
         model.addAttribute("successMessage", successMessage);
 
-        return "upload";
+        return "powerPointImage";
     }
 
     private List<byte[]> extractImagesFromFile(byte[] fileBytes) {
