@@ -19,7 +19,7 @@ import java.util.zip.ZipOutputStream;
 @Controller
 public class splitPdfController {
 
-    @GetMapping("/")
+    @GetMapping("/splitter")
     public String home() {
         return "Splitter";
     }
