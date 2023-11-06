@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Status Code Checker</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Status Code Checker</h1>
+
+    <form th:action="@{/check-status}" method="post" id="url-form">
+        <label for="urls">Enter URLs (comma-separated):</label>
+        <textarea type="text" id="urls" name="urls"></textarea>
+        <button type="submit" id="check-button">Check Status</button>
+    </form>
+
+    <h2>Results:</h2>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+
+    <div th:if="${error}" class="error-message">
+        <h2 th:text="${error}"></h2>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#url-form").submit(function (event) {
+                event.preventDefault();
+                var urls = $("#urls").val().split(",");
+                var resultsDiv = $("#results");
+                resultsDiv.empty();
+
+                urls.forEach(function (url) {
+                    $.post("/check-status", { urls: url.trim() }, function (data, status) {
+                        if (status === "success") {
+                            resultsDiv.append("<p><strong>URL:</strong> " + data.url + ", <strong>Status Code:</strong> " + data.statusCode + "</p>");
+                        } else {
+                            resultsDiv.append("<p>Error checking URL: " + url + "</p>");
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
