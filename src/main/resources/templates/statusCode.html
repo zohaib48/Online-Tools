@@ -1,46 +1,86 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Status Code Checker</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Check Sitemap Status</title>
 </head>
 <body>
-    <h1>Status Code Checker</h1>
-
-    <form th:action="@{/check-status}" method="post" id="url-form">
-        <label for="urls">Enter URLs (comma-separated):</label>
-        <textarea type="text" id="urls" name="urls"></textarea>
-        <button type="submit" id="check-button">Check Status</button>
+    <!-- Form for sitemap URL input -->
+    <form method="post" action="/check-status">
+        <label for="sitemapUrl">Sitemap URL:</label>
+        <input type="text" id="sitemapUrl" name="sitemapUrl" required>
+        <button type="submit">Check Status</button>
     </form>
 
-    <h2>Results:</h2>
-    <div id="results">
-        <!-- Results will be displayed here -->
+    <!-- Table to display the summary of response statuses -->
+    <table>
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>SUCCESS (200)</td>
+                <td id="status200">0</td>
+            </tr>
+            <tr>
+                <td>REDIRECT (300)</td>
+                <td id="status301">0</td>
+            </tr>
+            <tr>
+                <td>SERVER ERROR (500)</td>
+                <td id="status500">0</td>
+            </tr>
+            <tr>
+                <td>FORBIDDEN (403)</td>
+                <td id="status403">0</td>
+            </tr>
+            <tr>
+                <td>NOT FOUND (404)</td>
+                <td id="status404">0</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Container for live updates -->
+    <div id="live-updates">
+        <!-- Live updates will be displayed here -->
     </div>
 
-    <div th:if="${error}" class="error-message">
-        <h2 th:text="${error}"></h2>
-    </div>
+    <!-- JavaScript code to periodically fetch and display live updates -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        $(document).ready(function () {
-            $("#url-form").submit(function (event) {
-                event.preventDefault();
-                var urls = $("#urls").val().split(",");
-                var resultsDiv = $("#results");
-                resultsDiv.empty();
 
-                urls.forEach(function (url) {
-                    $.post("/check-status", { urls: url.trim() }, function (data, status) {
-                        if (status === "success") {
-                            resultsDiv.append("<p><strong>URL:</strong> " + data.url + ", <strong>Status Code:</strong> " + data.statusCode + "</p>");
-                        } else {
-                            resultsDiv.append("<p>Error checking URL: " + url + "</p>");
-                        }
-                    });
-                });
-            });
-        });
+        function fetchScore() {
+         $.get("/score", function(data) {
+
+            for (var statusCode in data) {
+          
+            var statusCount = data[statusCode];
+            $("#status" + statusCode).text(statusCount);
+                 }
+    });
+}
+
+
+
+
+
+        // function fetchLiveUpdates() {
+        //     $.get("/live-updates", function(data) {
+        //         var liveUpdatesContainer = $('#live-updates');
+        //         liveUpdatesContainer.empty(); // Clear previous updates
+        //         for (var i = 0; i < data.length; i++) {
+        //             liveUpdatesContainer.append('<p>' + data[i] + '</p>');
+        //         }
+        //     });
+        // }
+
+        // // Fetch live updates every 5 seconds (adjust the interval as needed)
+        // setInterval(fetchLiveUpdates, 5000); // Change the interval to 5000 milliseconds (5 seconds)
+        setInterval(fetchScore, 2000);
     </script>
 </body>
 </html>
