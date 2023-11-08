@@ -8,7 +8,7 @@
     border-radius: 5px;
     
     display: flex;
-    flex-direction: row; 
+    flex-direction: column; 
     align-items: center; 
     padding: 20px; 
     text-align: center; 
@@ -77,6 +77,17 @@ margin-left: 75px;
     }
 
 input[type="submit"]  {
+    /* Your CSS styles for the Submit button */
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 25px ;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);;
+}
+
+button[type="submit"]  {
     /* Your CSS styles for the Submit button */
     background-color: #007BFF;
     color: #fff;
