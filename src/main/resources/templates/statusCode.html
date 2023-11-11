@@ -4,12 +4,21 @@
     <title>Check Sitemap Status</title>
 </head>
 <body>
-    <!-- Form for sitemap URL input -->
-    <form method="post" action="/check-status">
+    <!-- Form for sitemap URL and number of threads input -->
+    <form method="post" action="/check-status" onsubmit="startInterval()">
         <label for="sitemapUrl">Sitemap URL:</label>
         <input type="text" id="sitemapUrl" name="sitemapUrl" required>
+        
+        <label for="numThreads">Number of Threads:</label>
+        <input type="number" id="numThreads" name="numThreads" value="5" min="1" max="5" required>
+
         <button type="submit">Check Status</button>
     </form>
+
+    <!-- Display a message if the limit of 1000 websites is reached -->
+    <div th:if="${limitReached}" style="color: red;">
+        Maximum limit of 1000 websites reached. Some URLs may not have been checked.
+    </div>
 
     <!-- Table to display the summary of response statuses -->
     <table>
@@ -23,11 +32,24 @@
             <tr>
                 <td>SUCCESS (200)</td>
                 <td id="status200">0</td>
+                <td>
+                    <button onclick="fetchUrlsByStatusCode(200)">View URLs</button>
+                </td>
+            </tr>
+
+            <tr>
+                <td id="url200"></td>
             </tr>
             <tr>
-                <td>REDIRECT (300)</td>
+                <td>REDIRECT (301)</td>
                 <td id="status301">0</td>
+                <td>
+                    <button onclick="fetchUrlsByStatusCode(301)">View URLs</button>
+                </td>
             </tr>
+            
+            <td id="url301"></td>
+        </tr>
             <tr>
                 <td>SERVER ERROR (500)</td>
                 <td id="status500">0</td>
@@ -39,6 +61,12 @@
             <tr>
                 <td>NOT FOUND (404)</td>
                 <td id="status404">0</td>
+                <td>
+                    <button onclick="fetchUrlsByStatusCode(404)">View URLs</button>
+                </td>
+            </tr>
+            <tr>
+                <td id="url404"></td>
             </tr>
         </tbody>
     </table>
@@ -53,34 +81,39 @@
 
     <script>
 
+    var intervalId;
+
+    function startInterval() {
+    // Clear any existing interval
+    clearInterval(intervalId);
+
+    // Start a new interval to fetch score every 2 seconds
+    intervalId = setInterval(fetchScore, 2000);
+        }
+
+
         function fetchScore() {
-         $.get("/score", function(data) {
+            $.get("/score", function(data) {
+                console.log(data)
+                for (var statusCode in data) {
+                    var statusCount = data[statusCode];
+                    $("#status" + statusCode).text(statusCount);
+                }
+            });
+        }
 
-            for (var statusCode in data) {
-          
-            var statusCount = data[statusCode];
-            $("#status" + statusCode).text(statusCount);
-                 }
-    });
-}
+        function fetchUrlsByStatusCode(statusCode) {
+            $.get("/urls/" + statusCode, function(data) {
+                // Display the URLs in the container with id="live-updates"
+                $("#url" +statusCode).html("<h3>URLs with Status Code " + statusCode + ":</h3><ul>");
+                for (var i = 0; i < data.length; i++) {
+                    $("#url" +statusCode).append("<li>" + data[i] + "</li>");
+                }
+                $("#url" +statusCode).append("</ul>");
+            });
+        }
 
-
-
-
-
-        // function fetchLiveUpdates() {
-        //     $.get("/live-updates", function(data) {
-        //         var liveUpdatesContainer = $('#live-updates');
-        //         liveUpdatesContainer.empty(); // Clear previous updates
-        //         for (var i = 0; i < data.length; i++) {
-        //             liveUpdatesContainer.append('<p>' + data[i] + '</p>');
-        //         }
-        //     });
-        // }
-
-        // // Fetch live updates every 5 seconds (adjust the interval as needed)
-        // setInterval(fetchLiveUpdates, 5000); // Change the interval to 5000 milliseconds (5 seconds)
-        setInterval(fetchScore, 2000);
+        fetchScore();
     </script>
 </body>
 </html>
