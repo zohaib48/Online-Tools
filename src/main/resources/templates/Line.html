@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/Line.css">
+    <title>Text Manipulation</title>
+
+   
+</head>
+<body>
+
+<!-- Text Manipulation Form -->
+<div class="Tool-section">
+    <h2 class="Tool-heading">Text Manipulation Form</h2>
+
+    <form action="/manipulateText" method="post">
+        <label for="originalText">Original Text:</label>
+        <textarea id="originalText" name="originalText" rows="4" cols="50" required></textarea>
+        <br>
+
+        <label>Manipulation Option:</label>
+        <input type="radio" name="manipulationOption" value="before" checked> Append Before
+        <input type="radio" name="manipulationOption" value="after"> Append After
+        <br>
+
+        <label for="appendString">Text to Append:</label>
+        <input type="text" id="appendString" name="appendString">
+        <br>
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
+
+<!-- Text Manipulation Result -->
+<div class="Tool-exp">
+    <h2 class="Tool-heading">Manipulated Text:</h2>
+    <pre th:text="${manipulatedText}"></pre>
+</div>
+
+<!-- About Section -->
+<div class="Tool-exp">
+    <h2 class="Tool-heading">About Text Manipulation Tool</h2>
+    <p>
+        The Text Manipulation Tool is a versatile online utility designed to assist users in easily modifying and enhancing their text content. Whether you need to append text before or after existing content, this tool provides a user-friendly interface to streamline the manipulation process.
+    </p>
+</div>
+
+<!-- Key Features -->
+<div class="Tool-exp">
+    <h2 class="Tool-heading">Key Features</h2>
+    <ul>
+        <li><strong>Simple Text Manipulation:</strong> Effortlessly append text before or after existing content.</li>
+        <li><strong>Options for Flexibility:</strong> Choose between "Append Before" and "Append After" based on your specific needs.</li>
+        <li><strong>User-Friendly Interface:</strong> The intuitive design ensures easy navigation and quick text manipulation.</li>
+        <li><strong>Immediate Results:</strong> View the manipulated text instantly, allowing for quick adjustments.</li>
+        <li><strong>Enhance Text Content:</strong> Use this tool to enhance and customize your text for various applications.</li>
+    </ul>
+</div>
+
+</body>
+</html>
