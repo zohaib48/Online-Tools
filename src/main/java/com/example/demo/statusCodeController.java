@@ -101,6 +101,17 @@ public class statusCodeController {
         return "statusCode";
     }
 
+    @PostMapping("/stop-process")
+    public String stopProcess() {
+    // Stop the processing by shutting down the thread pool
+   
+        executorService.shutdownNow();
+    
+
+    // Return a message or redirect to a page indicating that the process has been stopped
+    return "statusCode"; // Assuming you want to redirect to the home page after stopping the process
+}
+
     @PostMapping("/fetch-html-and-check-status")
     public String fetchHtmlAndCheckStatus(@RequestParam("websiteUrl") String websiteUrl,
                                           @RequestParam(value = "numThreads", defaultValue = "5") int numThreads,

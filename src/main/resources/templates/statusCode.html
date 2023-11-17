@@ -142,7 +142,24 @@
                 Check Status
               </button>
             </div>
+           <!-- Add this button code where you want it in your HTML template -->
+
+
           </form>
+          
+         
+            <form style="width: 100%; justify-content: center; display: flex;  margin-top: 2%;" action="/stop-process" method="post">
+              <button  style="
+              width: 20%;
+              border-radius: 15px;
+              padding: 10px;
+              background-color: rgb(107, 107, 200);
+              cursor: pointer;
+            " type="submit">Stop Process</button>
+            </form>
+          
+          
+        
           
         </div>
 
@@ -282,6 +299,8 @@
           }
         });
       }
+
+     
 
       function fetchUrlsByStatusCode(statusCode) {
        
