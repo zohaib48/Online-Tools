@@ -21,12 +21,14 @@ import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+
+
 import com.example.demo.models.StatusCodeResult;
 
 @Controller
 public class statusCodeController {
 
-    private static final int MAX_WEBSITES_TO_CHECK = 20;
+    private static final int MAX_WEBSITES_TO_CHECK = 100;
 
     private Map<Integer, Integer> statusCounts = new HashMap<>();
     private List<StatusCodeResult> results = new ArrayList<>();
@@ -39,11 +41,7 @@ public class statusCodeController {
         return "statusCode";
     }
 
-    @GetMapping("/check-status")
-    public String checkStatus() {
-        // No need to initialize statusCounts and results here, as they are initialized in checkStatus method
-        return "checkStatus";
-    }
+  
 
     @PostMapping("/check-status")
     public String checkStatus(@RequestParam("sitemapUrl") String sitemapUrl,
@@ -57,6 +55,7 @@ public class statusCodeController {
             Document doc = Jsoup.connect(sitemapUrl).get();
 
             // Ensure that the number of websites to check does not exceed the maximum limit
+            
             int websitesToCheck = Math.min(MAX_WEBSITES_TO_CHECK, doc.select("urlset > url > loc").size());
 
             // Create a thread pool with the specified number of threads
@@ -71,6 +70,7 @@ public class statusCodeController {
                         int statusCode = getStatusCode(url);
                         results.add(new StatusCodeResult(url, statusCode));
                         updateStatusCounts(statusCode);
+                        System.out.println(statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                         // Handle the error as needed
@@ -100,6 +100,81 @@ public class statusCodeController {
 
         return "statusCode";
     }
+
+    @PostMapping("/fetch-html-and-check-status")
+    public String fetchHtmlAndCheckStatus(@RequestParam("websiteUrl") String websiteUrl,
+                                          @RequestParam(value = "numThreads", defaultValue = "5") int numThreads,
+                                          Model model) {
+        // Initialize statusCounts and results here
+        statusCounts = new HashMap<>();
+        results = new ArrayList<>();
+     
+    
+        int counter=0;
+        try {
+            Document doc = Jsoup.connect(websiteUrl).get();
+          
+
+            // Extract all anchor tags
+            List<String> urlsToCheck = new ArrayList<>();
+            
+            for (Element anchorElement : doc.select("a[href]")) {
+                String url = anchorElement.attr("abs:href");
+                urlsToCheck.add(url);
+                counter++;
+                if (counter >= MAX_WEBSITES_TO_CHECK)
+                {
+                    break;
+                }
+            }
+        System.out.println("check ="+urlsToCheck.size());
+
+            // Ensure that the number of websites to check does not exceed the maximum limit
+            int websitesToCheck = Math.min(MAX_WEBSITES_TO_CHECK, urlsToCheck.size());
+
+            // Create a thread pool with the specified number of threads
+            executorService = Executors.newFixedThreadPool(numThreads);
+
+            for (String url : urlsToCheck.subList(0, websitesToCheck)) {
+                // Execute the status checking task in a separate thread
+                executorService.execute(() -> {
+                    try {
+                        int statusCode = getStatusCode(url);
+                        results.add(new StatusCodeResult(url, statusCode));
+                        updateStatusCounts(statusCode);
+                        System.out.println(statusCode);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        // Handle the error as needed
+                    }
+                });
+            }
+
+            // Shutdown the thread pool and wait for tasks to complete
+            executorService.shutdown();
+            executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
+
+            // Add the results and limit status to the model for display in the frontend
+            model.addAttribute("limitReached", websitesToCheck == MAX_WEBSITES_TO_CHECK);
+
+            System.out.println("program not ending");
+
+            return "statusCode";
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            // Handle the error as needed
+        } finally {
+            // Ensure that the thread pool is shut down even if an exception occurs
+            if (executorService != null) {
+                executorService.shutdown();
+            }
+        }
+
+        return "statusCode";
+    }
+
+  
+
 
     private int getStatusCode(String url) throws IOException {
         URL websiteURL = new URL(url);
