@@ -115,15 +115,26 @@ public class statusCodeController {
     @PostMapping("/fetch-html-and-check-status")
     public String fetchHtmlAndCheckStatus(@RequestParam("websiteUrl") String websiteUrl,
                                           @RequestParam(value = "numThreads", defaultValue = "5") int numThreads,
+                                           @RequestParam("depthLevel") int depthLevel,
                                           Model model) {
         // Initialize statusCounts and results here
         statusCounts = new HashMap<>();
         results = new ArrayList<>();
      
-    
+        System.out.println("depth lvl="+depthLevel);
         int counter=0;
         try {
-            Document doc = Jsoup.connect(websiteUrl).get();
+            if(depthLevel==0){
+                 int statusCode = getStatusCode(websiteUrl);
+                System.out.print("url to check="+websiteUrl);
+                
+                results.add(new StatusCodeResult(websiteUrl, statusCode));
+                updateStatusCounts(statusCode);
+                 return "statusCode";
+            }
+            if(depthLevel==1)
+            {
+                    Document doc = Jsoup.connect(websiteUrl).get();
           
 
             // Extract all anchor tags
@@ -171,6 +182,9 @@ public class statusCodeController {
             System.out.println("program not ending");
 
             return "statusCode";
+
+            }
+        
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             // Handle the error as needed

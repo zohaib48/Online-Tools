@@ -11,8 +11,11 @@
       .form_div {
         display: flex;
         width: 100%;
-        padding-left: 30%;
+        padding-left: 5%;
+        padding-right: 5%;
         box-sizing: border-box;
+        justify-content: center;
+        align-items: center;
         
       }
 
@@ -74,47 +77,57 @@
     <!-- Form for sitemap URL and number of threads input -->
 
     <div style="width: 100%; display: flex; justify-content: center">
-      <div
-        style="
-          display: flex;
-          align-items: center;
-          flex-direction: column;
-        
-          width: 70%;
-         
       
-          margin-top: 20px;
+        <div style="font-size: 17px; width: 100%; flex-direction: column ;   margin-top: 20px;
+        margin-right: 20%;
+        margin-left: 20%;
         
-          padding-top: 5%;
-          margin-bottom: 20px;
-          padding-bottom: 5%;
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-        "
-      >
-        <div style="font-size: 20px; width: 100%; flex-direction: column">
+        padding-top: 5%;
+        margin-bottom: 20px;
+        padding-bottom: 5%;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
           <form method="post" action="" onsubmit="startInterval(); return determineAction();">
+           
+           <div style="width: 100%; display: flex; justify-content: center;">
             <div class="form_div">
               <label for="sitemapUrl">Sitemap URL:</label>
               <input
-                style="width: 30%"
+                style="width: 60%"
                 type="text"
                 id="sitemapUrl"
                 name="sitemapUrl"
                
               />
             </div>
+              <div style="width: 100%;">
+                <div class="form_div">
+                  <label for="websiteUrl">Website URL:</label>
+                  <input
+                    style="width: 60%"
+                    type="text"
+                    id="websiteUrl"
+                    name="websiteUrl"
+                   
+                  />
+                </div>
+                <div class="form_div" style="   margin-top: 5%;">  <div class="form_div">
+                  <label for="depthLevel">Specify level of Depth:</label>
+                  <input
+                    style="width: 15%"
+                    type="number"
+                    id="depthLevel"
+                    name="depthLevel"
 
-            <div class="form_div">
-              <label for="sitemapUrl">Website URL:</label>
-              <input
-                style="width: 30%"
-                type="text"
-                id="websiteUrl"
-                name="websiteUrl"
-               
-              />
-            </div>
-            <div class="form_div" style="margin-top: 2%">
+                    min="0"
+                    max="1"
+                    required
+                  />
+                </div></div>
+              </div>
+          
+          </div>
+           <div>
+ <div class="form_div" style="margin-top: 5%">
               <label for="numThreads">Number of Threads:</label>
               <input
                 style="width: 10%"
@@ -127,6 +140,8 @@
                 required
               />
             </div>
+           </div>
+           
 
             <div style="display: flex; justify-content: center; margin-top: 3%">
               <button
@@ -161,15 +176,15 @@
           
         
           
-        </div>
+      
 
-        <div th:if="${limitReached}" style="margin-top: 2%; color: red">
+        <div th:if="${limitReached}" style="margin-top: 2%; color: red ;width: 100%; text-align: center;">
           Maximum limit of 1000 websites reached. Some URLs may not have been
           checked.
         </div>
 
         <div style="width: 100%; display: flex; justify-content: center; margin-top: 3%;">
-          <table style="width: 80%; border: solid; border-width: 2px; height: 300px;">
+          <table style="width: 80%; border: solid; border-width: 2px;">
             <thead>
               <tr style="border-width: 2px; border: solid;">
                 <th>Status</th>
@@ -242,7 +257,8 @@
           </table>
         </div>
       </div>
-    </div>
+   
+  </div>
 
     <!-- Container for live updates -->
     <div id="live-updates">
