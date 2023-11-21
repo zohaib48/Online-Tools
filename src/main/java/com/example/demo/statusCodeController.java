@@ -22,6 +22,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.example.demo.models.StatusCodeResult;
 
@@ -30,12 +32,21 @@ public class statusCodeController {
 
     private static final int MAX_WEBSITES_TO_CHECK = 100;
 
+    // do not store data at instance level ... becaue it seems, Spring is using same controller object or something else.. 
     private Map<Integer, Integer> statusCounts = new HashMap<>();
     private List<StatusCodeResult> results = new ArrayList<>();
     private ExecutorService executorService;
 
     @GetMapping("/code")
-    public String home() {
+    public String home(HttpSession session) {
+          if(session.getAttribute("counter") == null ) {
+            session.setAttribute("counter", Integer.valueOf(1));
+        } else {
+            int counter = (Integer)session.getAttribute("counter");
+            session.setAttribute("counter", Integer.valueOf(counter+1));
+        }
+        System.out.println(session.getAttribute("counter"));     
+         
         statusCounts = new HashMap<>();
         results = new ArrayList<>();
         return "statusCode";
@@ -47,15 +58,20 @@ public class statusCodeController {
     public String checkStatus(@RequestParam("sitemapUrl") String sitemapUrl,
                               @RequestParam(value = "numThreads", defaultValue = "5") int numThreads,
                               Model model) {
+
         // Initialize statusCounts and results here
         statusCounts = new HashMap<>();
         results = new ArrayList<>();
+
+      
 
         try {
             Document doc = Jsoup.connect(sitemapUrl).get();
 
             // Ensure that the number of websites to check does not exceed the maximum limit
             
+            // todo - cover both cases of sitemap format e..g sitemaps, urls
+            //      show result overall (currently implemented) and per sitemap (if given sitemap URLs contains list of sitemaps)
             int websitesToCheck = Math.min(MAX_WEBSITES_TO_CHECK, doc.select("urlset > url > loc").size());
 
             // Create a thread pool with the specified number of threads
@@ -65,12 +81,14 @@ public class statusCodeController {
                 String url = urlElement.text();
 
                 // Execute the status checking task in a separate thread
-                executorService.execute(() -> {
+                executorService.execute(
+                    () -> {
                     try {
                         int statusCode = getStatusCode(url);
+                        // todo make sure, the results and updateStatusCounts thread safe
                         results.add(new StatusCodeResult(url, statusCode));
                         updateStatusCounts(statusCode);
-                        System.out.println(statusCode);
+                       // System.out.println(statusCode);
                     } catch (IOException e) {
                         e.printStackTrace();
                         // Handle the error as needed
@@ -85,10 +103,11 @@ public class statusCodeController {
             // Add the results and limit status to the model for display in the frontend
             model.addAttribute("limitReached", websitesToCheck == MAX_WEBSITES_TO_CHECK);
 
-            System.out.println("program not ending");
-
+            System.out.println("check-stats completed..");
             return "statusCode";
         } catch (IOException | InterruptedException e) {
+            // todo serve page to show error in user friendly way ... "Problem in downloading... "
+            // log at error level using some logger e.g. log4j (later for v2)
             e.printStackTrace();
             // Handle the error as needed
         } finally {
