@@ -19,7 +19,7 @@ import java.io.IOException;
 @Controller
 public class scraperController {
 
-    @GetMapping("/scraper")
+    @GetMapping("/sc")
     public String index() {
         return "scraper";
     }
