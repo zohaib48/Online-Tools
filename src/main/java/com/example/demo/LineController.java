@@ -31,9 +31,9 @@ public class LineController {
     
         for (String line : lines) {
             if ("before".equals(manipulationOption)) {
-                result.append(appendString).append(" ").append(line).append("\n");
+                result.append(appendString).append(line).append("\n");
             } else if ("after".equals(manipulationOption)) {
-                result.append(line).append(" ").append(appendString).append("\n");
+                result.append(line).append(appendString).append("\n");
             }
         }
     
