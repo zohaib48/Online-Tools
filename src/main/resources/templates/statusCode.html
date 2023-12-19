@@ -71,6 +71,23 @@
       background-color:blueviolet;
 
      }
+
+     #loader {
+            border: 12px solid #c6c5c5;
+            border-radius: 50%;
+            border-top: 12px solid #444444;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+ 
+       
+ 
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
     </style>
   </head>
   <body>
@@ -86,7 +103,7 @@
         margin-bottom: 20px;
         padding-bottom: 5%;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);">
-          <form method="post" action="" onsubmit="startInterval(); return determineAction();">
+          <form >
            
            <div style="width: 100%; display: flex; justify-content: center;">
             <div class="form_div">
@@ -120,7 +137,7 @@
 
                     min="0"
                     max="1"
-                    required
+                   
                   />
                 </div></div>
               </div>
@@ -135,8 +152,7 @@
                 id="numThreads"
                 name="numThreads"
                 value="5"
-                min="1"
-                max="5"
+              
                 required
               />
             </div>
@@ -163,25 +179,32 @@
           </form>
           
          
-            <form style="width: 100%; justify-content: center; display: flex;  margin-top: 2%;" action="/stop-process" method="post">
-              <button  style="
-              width: 20%;
-              border-radius: 15px;
-              padding: 10px;
-              background-color: rgb(107, 107, 200);
-              cursor: pointer;
-            " type="submit">Stop Process</button>
-            </form>
-          
+          <form id="stop-process" style="width: 100%; justify-content: center; display: flex;  margin-top: 2%;" action="/stop-process" method="post">
+            <button style="width: 20%; border-radius: 15px; padding: 10px; background-color: rgb(107, 107, 200); cursor: pointer;" type="button" id="stopProcessButton">Stop Process</button>
+        </form>
           
         
           
       
 
-        <div th:if="${limitReached}" style="margin-top: 2%; color: red ;width: 100%; text-align: center;">
+        <div id="limitReached" style="margin-top: 2%; color: red ;width: 100%; text-align: center;">
           Maximum limit of 1000 websites reached. Some URLs may not have been
           checked.
         </div>
+
+        <div id="process-stop" style="margin-top: 2%; color: red ;width: 100%; text-align: center;">
+         PROCESS HAS BEEN STOPPED
+        </div>
+
+        <div  id="UrlProcessing" style="margin-top: 2%; color: red ;width: 100%; text-align: center; display: flex;justify-content: center;align-items: center;">
+        <div style="margin-right: 2%;">URL ARE PROCESSING...</div>
+          <div id="loader" class="center"></div>
+        </div>
+
+        <div id="error" style="margin-top: 2%; color: red ;width: 100%; text-align: center;">
+       
+        </div>
+
 
         <div style="width: 100%; display: flex; justify-content: center; margin-top: 3%;">
           <table style="width: 80%; border: solid; border-width: 2px;">
@@ -193,62 +216,157 @@
               </tr>
             </thead>
             <tbody style="text-align: center;">
-              <tr>
-                <td>SUCCESS <span>(200)</span> </td>
+              <tr id="row200">
+                <td>SUCCESS <span>(200)</span></td>
                 <td id="status200">0</td>
                 <td>
-                  <button onclick="fetchUrlsByStatusCode(200)">
-                    View URLs
-                  </button>
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div>
+                      <button onclick="fetchUrlsByStatusCode(200)">
+                        View URLs
+                      </button>
+                      <button class="hideBtn" onclick="hideDiv('url200')">Hide</button>
+                    </div>
+                    <div class="dialogBox" style="margin-top: 10px;">
+                      <label for="linkLimit">Select Limit:</label>
+                      <select class="linkLimit" data-status-code="200">
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  </div>
+                
+               
+                
                 </td>
+            
               </tr>
               <tr>
                 <td id="url200" class="hidden_row" colspan="3"></td>
               </tr>
-              <tr>
-                <td>REDIRECT<span>(301)</span></td>
+              <tr id="row301">
+                <td>REDIRECT <span>(301)</span></td>
                 <td id="status301">0</td>
                 <td>
-                  <button onclick="fetchUrlsByStatusCode(301)">
-                    View URLs
-                  </button>
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div>
+                      <button onclick="fetchUrlsByStatusCode(301)">
+                        View URLs
+                      </button>
+                      <button class="hideBtn" onclick="hideDiv('url301')">Hide</button>
+                    </div>
+                    <div class="dialogBox" style="margin-top: 10px;">
+                      <label for="linkLimit">Select Limit:</label>
+                      <select class="linkLimit" data-status-code="301">
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  </div>
+                
+               
+                
                 </td>
+            
               </tr>
               <tr>
                 <td id="url301" class="hidden_row" colspan="3"></td>
               </tr>
-              <tr>
+              <tr id="row500">
                 <td>SERVER ERROR <span>(500)</span></td>
                 <td id="status500">0</td>
                 <td>
-                  <button onclick="fetchUrlsByStatusCode(500)">
-                    View URLs
-                  </button>
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div>
+                      <button onclick="fetchUrlsByStatusCode(500)">
+                        View URLs
+                      </button>
+                      <button class="hideBtn" onclick="hideDiv('url500')">Hide</button>
+                    </div>
+                    <div class="dialogBox" style="margin-top: 10px;">
+                      <label for="linkLimit">Select Limit:</label>
+                      <select class="linkLimit" data-status-code="500">
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  </div>
+                
+               
+                
                 </td>
+            
               </tr>
               <tr>
                 <td id="url500" class="hidden_row" colspan="3"></td>
               </tr>
-              <tr>
-                <td>FORBIDDEN <span>(403)</span></td>
+              <tr id="row403">
+                <td>FORBIDDEN<span>(403)</span></td>
                 <td id="status403">0</td>
                 <td>
-                  <button onclick="fetchUrlsByStatusCode(403)">
-                    View URLs
-                  </button>
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div>
+                      <button onclick="fetchUrlsByStatusCode(403)">
+                        View URLs
+                      </button>
+                      <button class="hideBtn" onclick="hideDiv('url403')">Hide</button>
+                    </div>
+                    <div class="dialogBox" style="margin-top: 10px;">
+                      <label for="linkLimit">Select Limit:</label>
+                      <select class="linkLimit" data-status-code="403">
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  </div>
+                
+               
+                
                 </td>
+            
               </tr>
               <tr>
                 <td id="url403" class="hidden_row" colspan="3"></td>
               </tr>
-              <tr>
-                <td>NOT FOUND <span>(404)</span></td>
+              <tr id="row404">
+                <td>NOT FOUND<span>(404)</span></td>
                 <td id="status404">0</td>
                 <td>
-                  <button onclick="fetchUrlsByStatusCode(404)">
-                    View URLs
-                  </button>
+                  <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div>
+                      <button onclick="fetchUrlsByStatusCode(404)">
+                        View URLs
+                      </button>
+                      <button class="hideBtn" onclick="hideDiv('url404')">Hide</button>
+                    </div>
+                    <div class="dialogBox" style="margin-top: 10px;">
+                      <label for="linkLimit">Select Limit:</label>
+                      <select class="linkLimit" data-status-code="404">
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+                        <option value="all">All</option>
+                      </select>
+                    </div>
+                  </div>
+                
+               
+                
                 </td>
+            
               </tr>
               <tr>
                 <td id="url404" class="hidden_row" colspan="3"></td>
@@ -269,71 +387,198 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-      var intervalId;
+        var intervalId;
 
-        function determineAction() {
-    var websiteUrl = document.getElementById("websiteUrl").value;
+        $("#limitReached").hide();
+        $("#UrlProcessing").hide();
+        $("#process-stop").hide();
+        $(".dialogBox").hide();
+        $("#error").hide();
+       
+      // Initialize the interval when the page loads
+      $(document).ready(function() {
+        startInterval();
 
-    // Check if the website URL is filled
-    if (websiteUrl.trim() !== "") {
-      // Set action for /fetch-html-and-check-status
-      document.forms[0].action = "/fetch-html-and-check-status";
-    } else {
-      // Set action for /check-status
-      document.forms[0].action = "/check-status";
-    }
+      
+      });
+    
+      function startInterval() {
+        // Clear any existing interval
+       
+        // Start a new interval to fetch the score every 2 seconds
+        intervalId = setInterval(fetchScore, 3000);
+      }
 
-    // Continue with the form submission
-    return true;
-  }
+      $("#stopProcessButton").click(function () {
+        clearInterval(intervalId);
+        $("#UrlProcessing").hide();
+        $.ajax({
+            type: "POST",
+            url: $("#stop-process").attr("action"),
+            success: function (response) {
+                // Handle the success response
+                console.log(response);
 
+                // Access the "stopProcess" attribute from the response
+                if (response.stopProcess) {
+                    // Do something based on the stopProcess value
+                    $("#process-stop").show();
+                }
+            },
+            error: function (error) {
+                // Handle errors if needed
+                console.error(error);
+            }
+        });
+    });
+    
+      function fetchScore() {
+
+        $.get("/score", function (data) {
+          console.log(data);
+          for (var statusCode in data.statusCounts) {
+           
+            var statusCount = data.statusCounts[statusCode];
+            $("#status" + statusCode).html("<span>" + statusCount + "</span>");
+           
+          }
+          if(data.error){
+            console.log("hello")
+             $("#error").text(data.error);
+             $("#error").show();
+            
+             
+           }
+          if (data.limitReached) {
+            
+            console.log("entered limit in ajaz")
+           $("#UrlProcessing").hide();
+           $("#limitReached").show();
+    
+        
+           
+   
+                }
+             if(data.InProcess){
+             
+              $("#UrlProcessing").show();
+              $("#error").hide();
+              
+            } else if(!data.InProcess){
+             
+             $("#UrlProcessing").hide();
+              
+             
+           }
+            
+           
+        });
+      }
+    
+      $(document).ready(function () {
+     
+        $('form').submit(function (event) {
+          $("#process-stop").hide();
+          $("#error").hide();
+        
+        
+            event.preventDefault(); // Prevent the default form submission behavior
+
+            // Your existing logic to determine the action
+
+            // Set the action based on your logic
+            var websiteUrl = document.getElementById("websiteUrl").value;
+            if (websiteUrl.trim() !== "") {
+                document.forms[0].action = "/fetch-html-and-check-status";
+            } else {
+                document.forms[0].action = "/check-status";
+            }
+            $("#status200, #status301, #status500, #status403, #status404").text("0");
+           
+            startInterval();
+            $("#limitReached").hide();
+            $.ajax({
+                type: "POST",
+                url: document.forms[0].action,
+                data: $(this).serialize(),
+                success: function (response) {
+                    // Handle the response if needed
+                    console.log(response);
+
+                    // You can update the page or perform other actions based on the response
+                },
+                error: function (error) {
+                    // Handle errors if needed
+                    console.error(error);
+                }
+            });
+        });
+
+        // Your other JavaScript code here
+    });
       function hideDiv(divId) {
         var divToHide = document.getElementById(divId);
         if (divToHide) {
           divToHide.style.display = "none";
+          $(".dialogBox").hide();
         }
       }
-
+    
       function show(divId) {
         var divToHide = document.getElementById(divId);
         if (divToHide) {
           divToHide.style.display = "block";
+         
         }
       }
+      function showDialogBox(rowId) {
+      var dialogBox = $(rowId).find('.dialogBox');
+      dialogBox.show();
+}
+    
+      $("button[onclick^='fetchUrlsByStatusCode']").on('click', function() {
+        // Use the $(this) to reference the clicked button
+        showDialogBox($(this));
+        updateUrls($(this));
+    });
 
-      function startInterval() {
-        clearInterval(intervalId);
-        intervalId = setInterval(fetchScore, 2000);
-      }
+    function showDialogBox(clickedButton) {
+  var closestRow = clickedButton.closest('tr');
+  var rowId = closestRow.attr('id').replace('row', ''); // Extract row id
+  var dialogBox = closestRow.find('.dialogBox');
+  dialogBox.show();
+}
 
-      function fetchScore() {
-        $.get("/score", function (data) {
-          console.log(data);
-          for (var statusCode in data) {
-            var statusCount = data[statusCode];
-            $("#status" + statusCode).html("<span>" + statusCount + "</span>");
-          }
-        });
-      }
+    // Update the function to accept a parameter for the clicked button
+  function updateUrls(clickedButton) {
+    // Find the closest ancestor with class 'linkLimit' to the clicked button
+    var closestRow = clickedButton.closest('tr');
+   
+    console.log(closestRow);
+    var statusCode = closestRow.find('.linkLimit').data('status-code');
+    var linkLimit = closestRow.find('.linkLimit').val();
 
-     
+    // Make an Ajax call with the selected limit
+    $.get("/urls/" + statusCode, function (data) {
+        // Process only the specified number of links
+        show('url' + statusCode);
+        var urlContainer = $("#url" + statusCode);
+        urlContainer.html("<h3>URLs with Status Code " + statusCode + ":</h3><div>");
 
-      function fetchUrlsByStatusCode(statusCode) {
+        for (var i = 0; i < linkLimit; i++) {
+            urlContainer.append("<a style=\"display:block\" href=\"" + data[i] + "\">" + data[i] + "</a>");
+        }
+
+        urlContainer.append("</div>");
        
-        $.get("/urls/" + statusCode, function (data) {
-          show('url' + statusCode);
-          $("#url" + statusCode).html(
-            "<h3>URLs with Status Code " + statusCode + ":</h3><div>"
-          );
-          for (var i = 0; i < data.length; i++) {
-            $("#url" + statusCode).append("<a style=\"display:block\" href=\"" + data[i] + "\">" + data[i] + "</a>");
-          }
-          $("#url" + statusCode).append("</div>")
-          $("#url" + statusCode).append('<button class="hideBtn" onclick="hideDiv(\'url' + statusCode + '\')">Hide</button>');
-        });
-      }
+    });
+}
 
-      fetchScore();
+// Attach a change event listener to the dropdown
+$(".linkLimit").change(function () {
+    // Use the $(this) to reference the changed dropdown
+    updateUrls($(this));
+});
     </script>
   </body>
 </html>
