@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -20,25 +19,32 @@
              <input type="text" name="url" id="url" required>
              <br>
              <input type="submit" value="Download HTML">
-         </form>
-         <p th:text="${error}" style="color: red;"></p>
-         <br>
-     
-         <!-- Add button for downloading concise HTML without a separate input field -->
-         <form id="conciseHtmlForm" method="post" onsubmit="fetchConciseHTML(); return false;">
-             <input type="submit" value="Download Concise HTML">
-         </form>
-         <p th:text="${conciseError}" style="color: red;"></p>
-         <br>
-     
-         <!-- JavaScript function to fetch the URL and submit the form -->
-         <script>
-             function fetchConciseHTML() {
-                 var url = document.getElementById("url").value;
-                 document.getElementById("conciseHtmlForm").action = "/download-concise?url=" + url;
-                 document.getElementById("conciseHtmlForm").submit();
-             }
-         </script>
+         
+    </form>
+    <p th:text="${error}" style="color: red;"></p>
+    <br>
+
+    <!-- Add checkbox for removing empty tags -->
+    <form id="conciseHtmlForm" method="post" onsubmit="fetchConciseHTML(); return false;">
+        <label>
+            <input type="checkbox" name="removeEmptyTags"> Remove Empty Tags
+        </label>
+        <br>
+        <input type="submit" value="Download Concise HTML">
+    </form>
+    <p th:text="${conciseError}" style="color: red;"></p>
+    <br>
+
+    <!-- JavaScript function to fetch the URL and submit the form -->
+    <script>
+        function fetchConciseHTML() {
+            var url = document.getElementById("url").value;
+            var removeEmptyTags = document.querySelector('#conciseHtmlForm [name="removeEmptyTags"]').checked;
+            document.getElementById("conciseHtmlForm").action = "/download-concise?url=" + url + "&removeEmptyTags=" + removeEmptyTags;
+            document.getElementById("conciseHtmlForm").submit();
+        }
+    </script>
+
         </div>
 
         <div class="Tool-exp">

@@ -1,4 +1,3 @@
-// ScraperController.java
 package com.example.demo;
 
 import org.jsoup.Jsoup;
@@ -52,7 +51,10 @@ public class scraperController {
     }
 
     @PostMapping("/download-concise")
-    public ResponseEntity<FileSystemResource> downloadConciseHTML(@RequestParam String url, Model model) {
+    public ResponseEntity<FileSystemResource> downloadConciseHTML(
+            @RequestParam String url,
+            @RequestParam(required = false, defaultValue = "false") boolean removeEmptyTags,
+            Model model) {
         try {
             Document document = Jsoup.connect(url).get();
 
@@ -62,6 +64,11 @@ public class scraperController {
             // Clean up unnecessary attributes to create a concise structure
             document.select("[class]").removeAttr("class");
             document.select("[id]").removeAttr("id");
+
+            if (removeEmptyTags) {
+                // Remove empty tags from the document
+                document.select(":empty").remove();
+            }
 
             String conciseHtml = document.html();
 

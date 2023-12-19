@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TIFF to PDF Converter</title>
+</head>
+<body>
+
+<h2>TIFF to PDF Converter</h2>
+
+<form action="/tifToPdf" method="post" enctype="multipart/form-data">
+    <label for="tiffFile">Select TIFF File:</label>
+    <input type="file" name="tiffFile" id="tiffFile" accept=".tif, .tiff" required>
+    <br>
+    <button type="submit">Convert to PDF</button>
+</form>
+
+<div th:if="${message}" class="success-message">
+    <p th:text="${message}"></p>
+</div>
+
+<div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+</div>
+
+</body>
+</html>
