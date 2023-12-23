@@ -1,0 +1,154 @@
+
+body {
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+}
+
+.main-content {
+    flex: 70%;
+    margin-right: 20px;
+}
+
+.links {
+    flex: 30%;
+}
+
+.card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-title h1 {
+    color: #1c7430;
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-left: 15px;
+}
+
+.card-title-about h2 {
+    color: #1c7430;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-left: 15px;
+}
+
+.onlinetoolspro {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 0;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+.onlinetoolspro h2 {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.onlinetoolspro .list-group {
+    margin-top: 20px;
+}
+
+.onlinetoolspro .list-group-item {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 0;
+}
+
+.onlinetoolspro .list-group-item-action {
+    cursor: pointer;
+}
+
+.Tool-section {
+    background-color: rgb(255, 255, 255);
+    border: 10px;
+    border-width: 5px;
+    
+    margin-left: 195px;
+    border-radius: 5px;
+    
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    padding: 20px; 
+    text-align: center; 
+    width: 771px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    
+}
+
+.Tool-exp {
+    background-color: rgb(255, 255, 255);
+    border: 10px;
+    border-width: 5px;
+    
+    margin-left: 195px;
+    border-radius: 5px;
+    
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    padding: 20px; 
+     
+    width: 810px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 27.2px;
+    
+    box-sizing: border-box;
+    display: block;
+    font-family: roboto;
+    margin-bottom: 16px;
+    text-align: left;
+    color: black;
+}
+
+.Tool-heading {
+    font-size: 28px;
+    font-weight: 700;
+    
+    color: rgb(28, 116, 48);
+    box-sizing: border-box;
+    display: block;
+    font-family: roboto;
+}
+
+.browse {
+    margin-left: 75px;
+}
+
+input[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 12px 24px; /* Slightly increased padding for a better appearance */
+    font-size: 18px; /* Increased font size for better visibility */
+    border-radius: 25px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow for a lifted effect */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth transition for a hover effect */
+}
+
+input[type="submit"]:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+
+body {
+    background-color: rgb(240, 240, 240);
+}

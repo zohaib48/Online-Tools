@@ -11,7 +11,7 @@ public class LineController {
     @RequestMapping("/line")
     public String showForm() {
         return "Line";
-    }
+    }       
 
     @PostMapping("/manipulateText")
     public String manipulateText(String originalText, String manipulationOption, String appendString, Model model) {
