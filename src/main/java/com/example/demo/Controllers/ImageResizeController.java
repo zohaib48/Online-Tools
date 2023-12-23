@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.Controllers;
 
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Controller;

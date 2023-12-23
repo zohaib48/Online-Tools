@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+    
+        <!-- Add Bootstrap CSS -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+        <!-- Add jQuery and Popper.js -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    
+        <!-- Add Bootstrap JavaScript -->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </head>
+<body>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="card-title mb-5">
+                            <h1>Merge Multiple PDF Files</h1>
+                        </div>
+    
+                        <form method="POST" action="/merge-multiple-pdf-files" enctype="multipart/form-data">
+                            <div class="form-group row">
+                                <label for="file1" class="col-sm-3 col-form-label">File 1</label>
+                                <div class="col-sm-9">
+                                    <input type="file" name="files" required class="form-control" id="file1">
+                                </div>
+                            </div>
+    
+                            <div class="form-group row">
+                                <label for="file2" class="col-sm-3 col-form-label">File 2</label>
+                                <div class="col-sm-9">
+                                    <input type="file" name="files" required class="form-control" id="file2">
+                                </div>
+                            </div>
+    
+                            <div class="form-group row">
+                                <label for="mergedFileName" class="col-sm-3 col-form-label">Merged File Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="mergedFileName" name="newFileName">
+                                </div>
+                            </div>
+    
+                            <div class="form-group row">
+                                <div class="col-sm-4 offset-sm-3">
+                                    <input type="submit" value="Download Merged File" class="form-control btn-primary"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+    
+                <br/>
+    
+                <div class="card border-0">
+                    <div class="card-body">
+                        <div class="card-title">
+                            <h2>About Merge PDF Documents Tool</h2>
+                        </div>
+                        <p>
+                        This online tool facilitate users to merge and combine multiple PDF documents into one. User
+                        uploads 2 PDF documents, input the new file name to be used for merged file and submit the form.
+                        When the form is submitted, both files and given name are uploaded at OnlineToolsPro server
+                        where the documents are merged.
+                        At server, user uploaded files are not stored permanently but temporarily and they are automatically
+                        deleted after sometime. The output file is downloaded immediately, its downloaded automatically, so
+                        user don't need to perform any operation to download the merged file.
+                        If the user do not enter the merged file name, a random file name is chosen by server,
+                        definitely, user can change the merged PDF file name after the file is downloaded. </p>
+                        <p>
+                            When we work in teams, each member may be responsible to draft a specific part of the document about the project in hand. After all parts are drafted, they can be combined into one using this tool. Often in academic settings, we often need to merge multiple PDF documents. PDF format is very reader and formatting friendly, so rather we share the document in original format e.g. doc that may introduce formatting errors (some time, when there is difference of version). The better strategy can be, each member prepare part of the report in original format e.g. word. and then rather than sharing the original format file, user shall convert the source format into reader and format friendly fromat e.g. PDF and send to other person, where each part can be combined to make a final copy of the document.
+                        </p>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="col-md-4">
+                <jsp:include page="RightList.jsp"/>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+</div>
+
