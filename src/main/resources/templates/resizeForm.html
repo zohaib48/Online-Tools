@@ -1,48 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+    <link rel="stylesheet" type="text/css" href="/css/splitter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
     <title>Image Resizer</title>
 </head>
-<body>
-    <h1>Image Resizer</h1>
-
+<body >
+    
     <form action="/resizeImage" method="post" enctype="multipart/form-data">
+        
         <div th:if="${error}" class="error-message">
             <p th:text="${error}"></p>
         </div>
-
-        <label for="imageFile">Select an image file:</label>
-        <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg, .png" required >
-        <br>
+        
+        <div class="Tool-section">
+    
+             <h2 class="Tool-heading">Image Resizer</h2>
+             <div class="browse">
+                <label for="imageFile">Select an image file:</label>
+                <input type="file" id="imageFile" name="imageFile" accept=".jpg, .jpeg, .png" required ><br><br>   
+             </div>
+         <div class="cols">    
+    <div style="margin-right: 40px;" >
+       
         <label for="width">Width:</label>
         <input type="number" id="width" name="width">
-        <br>
+        <br><br>
         <label for="height">Height:</label>
         <input type="number" id="height" name="height">
-        <br>
-        <label for="quality">Quality:</label>
-        <input type="number" id="quality" name="quality" step="0.01">
-        <br>
-        <label for="aspectRatio">Maintain Aspect Ratio:</label>
-        <input type="checkbox" id="aspectRatio" name="aspectRatio" value="true">
-        <br>
+    <br><br>
         <label for="format">Select Output Format:</label>
         <select id="format" name="format">
             <option value="jpg">JPG</option>
             <option value="png">PNG</option>
         </select>
-        <br>
-        <label for="scale">Scale Factor:</label>
-        <input type="number" id="scale" name="scale" step="0.01">
-        <br>
-        <button type="submit">Resize Image</button>
-    </form>
+    <br><br>
 
-    <div th:if="${resizedImageBase64}" class="image-preview">
-        <p>Resized Image Preview:</p>
-        <img th:src="'data:image/' + ${format} + ';base64,' + ${resizedImageBase64}">
-        <br>
-        <a th:href="@{'/downloadImage?format=' + ${format}}" th:download="'resized_image.' + ${format}">Download Resized Image</a>
+
+
+    </div>       
+
+    <div style="margin-left: 40px;">
+
+      
+
+    <label for="quality">Quality:</label>
+    <input type="number" id="quality" name="quality" step="0.01">
+    <br><br>
+    <label for="aspectRatio">Maintain Aspect Ratio:</label>
+    <input type="checkbox" id="aspectRatio" name="aspectRatio" value="true">
+    <br><br>
+    <label for="scale">Scale Factor:</label>
+    <input type="number" id="scale" name="scale" step="0.01">
+    <br><br>
+    
+ 
     </div>
+</div >
+    <button type="submit">Resize Image</button>
+    </div>
+
+
+        <div th:if="${resizedImageBase64}" class="image-preview">
+            <p>Resized Image Preview:</p>
+            <img th:src="'data:image/' + ${format} + ';base64,' + ${resizedImageBase64}">
+            <br>
+            <a th:href="@{'/downloadImage?format=' + ${format}}" th:download="'resized_image.' + ${format}">Download Resized Image</a>
+        </div>
+
+        <div class="Tool-exp">
+            <div class="Tool-heading">
+                <p >Introducing our Image Resizer: Your Go-To Tool for Perfect Images!</p>
+
+            </div>
+                <p>
+
+                
+                    Are your images too large for your needs? Struggling to get the perfect dimensions for your visuals? Look no further! Our online Image Resizer is your secret weapon for effortlessly resizing and optimizing your images with ease.
+
+                    <h3>Key Features:</h3>
+<ul>
+
+<li>
+    Choose Any File: Our tool accepts a wide range of image formats, so whether it's a high-quality JPEG, a crisp PNG, or even a standard JPG, you're covered!
+</li>
+
+<li>
+    Specify Width & Height: Precision is key! Tailor your image to the exact dimensions you desire. Just input the width and height, and watch your image transform.
+</li>
+
+<li>
+    Quality Control: Maintain image clarity with our quality adjustment feature. Fine-tune the quality with precision using step-by-step increments.
+</li>
+
+<li>
+    Aspect Ratio Magic: Worried about distortion? Don't be! Our tool lets you lock the aspect ratio, ensuring your image stays perfectly proportioned during resizing.
+</li>
+
+<li>
+    Output Format: Choose your preferred output format. Stick with the classic JPG or go for a crystal-clear PNG – the choice is yours.
+</li>
+
+<li>
+    Scale Factor: Need a quick change? Scale your image up or down with a breeze. Adjust with a scale factor for the perfect size.
+</li>
+
+</ul>
+
+<p>With our Image Resizer, the power to resize and enhance your images is in your hands. Whether you're working on web design, social media, or just need a quick adjustment, our tool is here to make your life easier.</p>
+
+<h3>Efficiency and simplicity combined – transform your images effortlessly today and experience the magic of managing your visuals like never before!
+
+
+
+
+
+</p\h3>
+
+            </p>
+
+        </div>
+
+    <!-- Display success message if available -->
+    <div th:if="${successMessage}" class="success-message">
+        <h2 th:text="${successMessage}"></h2>
+    </div>
+
+    <!-- Display error message if available -->
+    <div th:if="${errorMessage}" class="error-message">
+        <h2 th:text="${errorMessage}"></h2>
+    </div>
+       
+    </form>
 </body>
+
 </html>
