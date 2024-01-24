@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" type="text/css" href="/css/splitter.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700&display=swap" rel="stylesheet">
+
+    <meta charset="UTF-8">
+    <title>HTML Scraper</title>
+</head>
+<body >
+    
+    <form action="/download" method="post" >
+        <div class="Tool-section">
+    
+             <h2 class="Tool-heading">HTML Scraper</h2>
+             <label for="url">Website URL:</label>
+             <input type="text" name="url" id="url" required>
+             <br>
+             <input type="submit" value="Download HTML">
+         
+    </form>
+    <p th:text="${error}" style="color: red;"></p>
+    <br>
+
+    <!-- Add checkbox for removing empty tags -->
+    <form id="conciseHtmlForm" method="post" onsubmit="fetchConciseHTML(); return false;">
+        <label>
+            <input type="checkbox" name="removeEmptyTags"> Remove Empty Tags
+        </label>
+        <br>
+        <input type="submit" value="Download Concise HTML">
+    </form>
+    <p th:text="${conciseError}" style="color: red;"></p>
+    <br>
+
+    <!-- JavaScript function to fetch the URL and submit the form -->
+    <script>
+        function fetchConciseHTML() {
+            var url = document.getElementById("url").value;
+            var removeEmptyTags = document.querySelector('#conciseHtmlForm [name="removeEmptyTags"]').checked;
+            document.getElementById("conciseHtmlForm").action = "/download-concise?url=" + url + "&removeEmptyTags=" + removeEmptyTags;
+            document.getElementById("conciseHtmlForm").submit();
+        }
+    </script>
+
+        </div>
+
+        <div class="Tool-exp">
+            <div class="Tool-heading">
+                <p >Introducing our Web Scrapper Tool</p>
+
+            </div>
+            <p>
+
+                
+                Introducing our HTML Scraper – Your Shortcut to Effortless Web Content Extraction!
+
+    
+<ul>
+
+<li>
+    Easily download entire HTML pages with a click using our "Download Complete HTML" button. No more hassle, just seamless access to the raw structure of any webpage.
+</li>
+
+<li>
+    Need a cleaner view? Say hello to the "Download Concise HTML" option. Extract the essence of the webpage by removing unnecessary CSS properties, keeping it sleek and focused.
+</li>
+
+<li>
+    User-friendly and efficient, our HTML Scraper lets you navigate the web's wealth of information with unparalleled simplicity. Just input the URL, choose your download option, and experience web scraping at its finest.
+</li>
+
+<li>
+    Perfect for research, content curation, or simply exploring the digital landscape – our HTML Scraper is your go-to tool for extracting and managing web content effortlessly.
+</li>
+
+<li>
+    Uncover the power of efficient HTML scraping – try it now and redefine the way you interact with online content!
+</li>
+
+</ul>
+
+
+
+<h3>Efficiency and simplicity combined – Scrape your desired website effortlessly today and experience the magic of managing and downloading HTMLs like never before!
+
+
+
+
+
+</p\h3>
+
+        </p>
+        </div>
+
+ 
+    </form>
+</body>
+
+</html>

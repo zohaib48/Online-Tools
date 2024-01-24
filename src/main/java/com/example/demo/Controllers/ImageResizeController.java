@@ -29,6 +29,11 @@ public class ImageResizeController {
         model.addAttribute("imageResizeForm", new ImageRezize());
         return "resizeForm";
     }
+      @GetMapping("/home")
+    public String Landing(Model model) {
+        return "index";
+    }
+
 
     @PostMapping("/resizeImage")
     public String resizeImage(ImageRezize imageResizeForm, Model model) {
