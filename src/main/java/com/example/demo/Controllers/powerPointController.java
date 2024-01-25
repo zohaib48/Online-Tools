@@ -32,7 +32,7 @@ public class powerPointController {
         return "powerPointImage"; // Display the upload form initially on the "upload.html" page
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/powerPointImages")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model ,HttpServletResponse response) {
         List<byte[]> images = new ArrayList<>();
         String successMessage = null;
@@ -46,7 +46,7 @@ public class powerPointController {
           File zipFile =  createZipFile(images, zipFileName);
 
                  response.setContentType("application/zip");
-                response.setHeader("Content-Disposition", "attachment; filename=split_pdf.zip");
+                response.setHeader("Content-Disposition", "attachment; filename=PPIT_images.zip");
 
            
                 try (OutputStream out = response.getOutputStream();

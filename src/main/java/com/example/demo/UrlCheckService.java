@@ -39,7 +39,7 @@ public class UrlCheckService {
                 boolean isValidUrl = validateUrl(sitemapUrl);
                 if (!isValidUrl) {
                     System.out.println("invalid url");
-                       session.setAttribute("error", "URL IS INVALID PLEASE ENTER AGAIN");
+                    session.setAttribute("error", "URL IS INVALID PLEASE ENTER AGAIN");
                     return "statusCode";
                 }
 
@@ -68,11 +68,14 @@ public class UrlCheckService {
         executorService.awaitTermination(Long.MAX_VALUE, TimeUnit.NANOSECONDS);
         System.out.println("program ended");
         System.out.println("web to check inside"+websitesToChecks);
-       if(websitesToChecks==MAX_WEBSITES_TO_CHECK){
+        session.setAttribute("InProcess", false);
+        int count = results.size();
+        System.out.println("result list size "+ count);
+       if(count==MAX_WEBSITES_TO_CHECK){
         System.out.print("i am");
         session.setAttribute("limitReached",true);
        }
-        session.setAttribute("InProcess", false);
+       
    
 
         return "statusCode";
